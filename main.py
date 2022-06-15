@@ -1,17 +1,28 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, SelectField
+from wtforms.validators import DataRequired, URL
 import csv
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 Bootstrap(app)
 
+COFFEE_RATINGS = [' ☕️ ', ' ☕️ ☕️ ', ' ☕️ ☕️ ☕️ ', ' ☕️ ☕️ ☕️ ☕️ ', ' ☕️ ☕️ ☕️ ☕️ ☕️ ']
+WIFI_RATINGS = [' ✘ ', ' 💪️ ', ' 💪️ 💪️ ', ' 💪️ 💪️ 💪️ ', ' 💪️ 💪️ 💪️ 💪️ ', ' 💪️ 💪️ 💪️ 💪️ 💪️ ']
+POWER_RATINGS = [' ✘ ', ' 🔌️ ', ' 🔌️ 🔌️ ', ' 🔌️ 🔌️ 🔌️ ', ' 🔌️ 🔌️ 🔌️ 🔌️ ', ' 🔌️ 🔌️ 🔌️ 🔌️ 🔌️ ']
+
 
 class CafeForm(FlaskForm):
     cafe = StringField('Cafe name', validators=[DataRequired()])
+    location = StringField('Cafe Location on Google Maps (URL)',
+                           validators=[URL(message='Please enter a valid url.'), DataRequired()])
+    open = StringField('Opening Time e.g. 8AM', validators=[DataRequired()])
+    closed = StringField('Closing Time e.g. 5:30PM', validators=[DataRequired()])
+    coffee_rating = SelectField('Coffee Rating', choices=COFFEE_RATINGS, validate_choice=True)
+    wifi_rating = SelectField('Wifi Strength Rating', choices= WIFI_RATINGS, validate_choice=True)
+    power = SelectField('Power Socket Availability', choices= POWER_RATINGS, validate_choice=True)
     submit = SubmitField('Submit')
 
 # Exercise:
@@ -29,7 +40,7 @@ def home():
     return render_template("index.html")
 
 
-@app.route('/add')
+@app.route('/add', methods=['GET', 'POST'])
 def add_cafe():
     form = CafeForm()
     if form.validate_on_submit():
