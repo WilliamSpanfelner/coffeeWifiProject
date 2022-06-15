@@ -45,6 +45,18 @@ def add_cafe():
     form = CafeForm()
     if form.validate_on_submit():
         print("True")
+        with open("cafe-data.csv", "a") as csv_file:
+            fieldnames = ['Cafe Name', 'Location', 'Open', 'Close', 'Coffee', 'Wifi', 'Power']
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writerow({
+                'Cafe Name': form.data['cafe'],
+                'Location': form.data['location'],
+                'Open': form.data['open'],
+                'Close': form.data['closed'],
+                'Coffee': form.data['coffee_rating'],
+                'Wifi': form.data['wifi_rating'],
+                'Power': form.data['power'],
+            })
     # Exercise:
     # Make the form write a new row into cafe-data.csv
     # with   if form.validate_on_submit()
