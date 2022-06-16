@@ -20,7 +20,7 @@
           <thead>
             <tr>
                 {% for col_label in cafes[0] %}
-                <th scope="col">{{ col_label }}</th>
+                    <th scope="col">{{ col_label }}</th>
                 {% endfor %}
             </tr>
           </thead>
@@ -33,15 +33,11 @@
             <tr>
                 {% for item in cafe %}
 
-                {% if cafe.index(item) == 0 %}
-                <th scope="row">{{ item }}</th>
-
-                {% elif cafe.index(item) == 1 %}
-                <td><a href="{{ item }}">Maps Link</a></td>
-
-                {% else %}
-                <td>{{ item }}</td>
-                {% endif %}
+                    {% if item[0:4] == 'http' %}
+                        <td><a href="{{ item }}">Maps Link</a></td>
+                    {% else %}
+                        <td>{{ item }}</td>
+                    {% endif %}
 
                 {% endfor %}
             </tr>
