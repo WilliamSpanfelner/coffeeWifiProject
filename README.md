@@ -1,3 +1,4 @@
+![Screenshot](day-62-CoffeeWifiProject.png)
 # Create forms with one line of code! - Flask, WTForms, Bootstrap and CSV - Coffee & Wifi Project.
 - 👋 Hi, I’m @WilliamSpanfelner
 - 👀 I’m interested in using Python with Swift in iOS environments and why it may or may not be desirable.
